@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="style/common.css">
+</head>
+<body>
+<!--登陆-->
+<div class="loginBox">
+    <ul class="loginList clearfix">
+        <li class="hTxt">用户注册</li>
+        <li class="inputBox">
+            <input type="text" class="inputs" id="add_user">
+        </li>
+        <li class="inputBox">
+            <input type="password" class="inputs" id="add_pass">
+        </li>
+        <li class="btns">
+            <input id="add_btn" type="button" class="reg" value="" />
+        </li>
+        <li class="look"><a href="user_view.php" target="_blank" id="tree">查看已注册用户</a></li>
+    </ul>
+</div>
+<!--注册-->
+<div class="loginBox">
+    <ul class="loginList clearfix">
+        <li class="hTxt">用户登陆</li>
+        <li class="inputBox">
+            <input type="text" class="inputs" id="login_user">
+        </li>
+        <li class="inputBox">
+            <input type="password" class="inputs" id="login_pass">
+        </li>
+        <li class="btns">
+            <input id="login_btn" type="button" class="login" value="" />
+        </li>
+    </ul>
+</div>
+</body>
+<script src="../js/jquery-1.7.2.js"></script>
+<script>
+    $(()=>{
+        $('#add_btn').click(()=>{
+            let name=$('#add_user').val();
+            let pass=$('#add_pass').val();
+            $.ajax({
+                url:`user.php?act=add&user=${name}&pass=${pass}`,//反引号 注意接口json在里面！！！
+                dataType:'json',
+                cache:false,
+                success:res=>{
+                    if(!res.error){
+                        alert('成功了');
+                    }else{
+                        alert('失败了');
+                    }
+                },
+                error:res=>{
+                    alert('请求注册失败'+res);
+                }
+
+            })
+        })
+        $('#login_btn').click(()=>{
+            let name=$('#login_user').val();
+            let pass=$('#login_pass').val();
+            $.ajax({
+                url:`user.php?act=login&user=${name}&pass=${pass}`,
+                dataType:'json',
+                cache:false,
+                success:res=>{
+                    if(!res.error){
+                        alert('登录成功');
+                    }else{
+                        alert('登录失败');
+                    }
+                },
+                error:r=>{
+                    alert('请求登录失败'+r);
+                }
+
+
+            });
+        });
+        $('#tree').click(()=>{
+            $.ajax({
+                url:`tree.php?act=get_tree&id=${tree}`,
+                dataType:'json',
+                cache:false,
+                success:res=>{
+                    alert('已记录');
+                },
+                error:res=>{
+                    alert('记录失败'+res);
+                }
+            })
+        })
+    });
+</script>
+</html>
